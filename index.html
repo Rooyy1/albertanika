@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Онлайн-тренер — тело, которым ты будешь гордиться</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0B0B0C;
+      --bg2: #000000;
+      --card: #151516;
+      --card2: #1B1B1D;
+      --line: #242426;
+      --ink: #F4F2EF;
+      --body: #9C9894;
+      --muted: #68655F;
+      --acc: #E8622C;
+      --acc2: #D14F1C;
+      --accsoft: rgba(232, 98, 44, .13);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      background: var(--bg2);
+      color: var(--ink);
+      font-family: 'Manrope', sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased
+    }
+
+    .wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 40px
+    }
+
+    img {
+      display: block;
+      max-width: 100%
+    }
+
+    ::selection {
+      background: var(--acc);
+      color: #fff
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity .9s cubic-bezier(.16, .84, .32, 1), transform .9s cubic-bezier(.16, .84, .32, 1)
+    }
+
+    .reveal.in {
+      opacity: 1;
+      transform: none
+    }
+
+    .d1 {
+      transition-delay: .08s
+    }
+
+    .d2 {
+      transition-delay: .16s
+    }
+
+    .d3 {
+      transition-delay: .24s
+    }
+
+    .d4 {
+      transition-delay: .32s
+    }
+
+    .ph {
+      background: linear-gradient(150deg, #1c1c1e, #101011);
+      width: 100%;
+      height: 100%
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--ink);
+      color: #0B0B0C;
+      font-family: 'Unbounded';
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: .01em;
+      padding: 18px 38px;
+      border-radius: 100px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: transform .18s cubic-bezier(.34, 1.4, .5, 1), background .2s, box-shadow .2s
+    }
+
+    .btn:hover {
+      background: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 16px 34px -14px rgba(255, 255, 255, .3)
+    }
+
+    .btn:active {
+      transform: translateY(1px) scale(.98)
+    }
+
+    .btn.acc {
+      background: var(--acc);
+      color: #fff
+    }
+
+    .btn.acc:hover {
+      background: var(--acc2);
+      box-shadow: 0 16px 34px -14px rgba(232, 98, 44, .5)
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Unbounded';
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--acc)
+    }
+
+    h2.h {
+      font-family: 'Unbounded', sans-serif;
+      font-weight: 800;
+      font-size: clamp(26px, 4vw, 50px);
+      line-height: 1.08;
+      letter-spacing: -.02em
+    }
+
+    h2.h .accent {
+      color: var(--acc)
+    }
+
+    /* ============ HERO + SYSTEM ============ */
+    .hero-wrap {
+      position: relative;
+      border-radius: 0 0 28px 28px;
+      overflow: hidden
+    }
+
+    .hero {
+      position: relative;
+      min-height: 92vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      padding: 120px 0 70px
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0
+    }
+
+    .hero-bg .ph {
+      width: 100%;
+      height: 100%
+    }
+
+    .hero-bg::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(100deg, rgba(11, 11, 12, .94) 22%, rgba(11, 11, 12, .6) 55%, rgba(11, 11, 12, .28) 100%)
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 50px;
+      align-items: center;
+      width: 100%
+    }
+
+    .hero-left h1 {
+      font-family: 'Unbounded';
+      font-weight: 800;
+      font-size: clamp(34px, 5.6vw, 68px);
+      line-height: 1.08;
+      letter-spacing: -.02em;
+      color: #fff
+    }
+
+    .hero-left .sub {
+      margin-top: 24px;
+      font-size: clamp(15px, 1.4vw, 17.5px);
+      color: var(--body);
+      font-weight: 500;
+      max-width: 46ch;
+      line-height: 1.65
+    }
+
+    .hero-left .cta {
+      margin-top: 34px
+    }
+
+    .hero-card {
+      position: relative
+    }
+
+    .hero-card .frame {
+      aspect-ratio: .82/1;
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: 0 40px 80px -30px rgba(0, 0, 0, .7);
+      transition: transform .4s
+    }
+
+    .hero-card:hover .frame {
+      transform: translateY(-4px)
+    }
+
+    .hero-card .cap {
+      margin-top: 16px;
+      font-size: 14px;
+      color: var(--body);
+      line-height: 1.4
+    }
+
+    .hero-card .cap b {
+      color: #fff;
+      display: block;
+      font-family: 'Unbounded';
+      font-weight: 700;
+      font-size: 16px;
+      margin-bottom: 3px
+    }
+
+    .system {
+      padding: 90px 0 100px;
+      background: var(--bg2)
+    }
+
+    .system .head {
+      max-width: 600px;
+      margin-bottom: 52px
+    }
+
+    .system .head .eyebrow {
+      margin-bottom: 18px
+    }
+
+    .sys-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px
+    }
+
+    .sys-item {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 34px 30px;
+      transition: transform .3s ease, border-color .3s ease
+    }
+
+    .sys-item:hover {
+      transform: translateY(-6px);
+      border-color: var(--acc)
+    }
+
+    .sys-item .num {
+      font-family: 'Unbounded';
+      font-weight: 800;
+      font-size: 28px;
+      color: var(--acc);
+      margin-bottom: 18px
+    }
+
+    .sys-item h3 {
+      font-family: 'Unbounded';
+      font-size: 14.5px;
+      font-weight: 700;
+      letter-spacing: .03em;
+      text-transform: uppercase;
+      color: #fff;
+      margin-bottom: 13px
+    }
+
+    .sys-item p {
+      color: var(--body);
+      font-size: 14.5px;
+      line-height: 1.6
+    }
+
+    /* ============ RESULTS ============ */
+    .res {
+      padding: 100px 0;
+      background: var(--bg2)
+    }
+
+    .res .head {
+      margin-bottom: 44px
+    }
+
+    .res .head .eyebrow {
+      margin-bottom: 18px
+    }
+
+    .res-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px
+    }
+
+    .res-cell {
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      aspect-ratio: .86/1;
+      transition: transform .35s
+    }
+
+    .res-cell:hover {
+      transform: translateY(-4px)
+    }
+
+    .res-cell .tag {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      font-family: 'Unbounded';
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      background: rgba(0, 0, 0, .62);
+      color: #fff;
+      padding: 7px 13px;
+      border-radius: 100px;
+      backdrop-filter: blur(4px);
+      z-index: 2
+    }
+
+    .res-cell.after .tag {
+      background: var(--acc)
+    }
+
+    .res-quote {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(0deg, rgba(0, 0, 0, .88), rgba(0, 0, 0, .1));
+      color: #fff;
+      font-size: 12px;
+      line-height: 1.45;
+      font-weight: 500;
+      padding: 34px 14px 14px;
+      z-index: 2
+    }
+
+    .res-cell.quote p {
+      color: #fff;
+      font-size: 13.5px;
+      line-height: 1.55;
+      font-weight: 500
+    }
+
+    /* ============ PRICING ============ */
+    .price {
+      padding: 100px 0;
+      position: relative;
+      background: radial-gradient(120% 100% at 50% 0%, rgba(232, 98, 44, .08), transparent 55%), var(--bg2)
+    }
+
+    .price .head {
+      margin-bottom: 20px;
+      max-width: 620px
+    }
+
+    .price .head .eyebrow {
+      margin-bottom: 18px
+    }
+
+    .price .head p {
+      color: var(--body);
+      font-size: 16px;
+      line-height: 1.6;
+      margin-top: 16px
+    }
+
+    .incl-all {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 32px 34px;
+      margin: 40px 0 26px
+    }
+
+    .incl-all .t {
+      font-family: 'Unbounded';
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--acc);
+      margin-bottom: 22px
+    }
+
+    .incl-all .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px 36px
+    }
+
+    .incl-all .it {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      font-size: 14.5px;
+      color: var(--ink);
+      line-height: 1.5
+    }
+
+    .incl-all .it .em {
+      flex: 0 0 auto;
+      font-size: 18px;
+      line-height: 1.3
+    }
+
+    .plans {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      align-items: stretch
+    }
+
+    .plan {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 34px 30px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: transform .3s, border-color .3s
+    }
+
+    .plan:hover {
+      transform: translateY(-4px)
+    }
+
+    .plan.hit {
+      border-color: var(--acc)
+    }
+
+    .plan .badge {
+      position: absolute;
+      top: -14px;
+      left: 30px;
+      background: var(--acc);
+      color: #fff;
+      font-family: 'Unbounded';
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 7px 15px;
+      border-radius: 100px;
+      white-space: nowrap
+    }
+
+    .plan .lbl {
+      font-family: 'Unbounded';
+      font-size: 11.5px;
+      color: var(--muted);
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      margin-bottom: 8px
+    }
+
+    .plan .tt {
+      font-family: 'Unbounded';
+      font-weight: 700;
+      font-size: 24px;
+      margin-bottom: 12px
+    }
+
+    .plan .sub {
+      color: var(--body);
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 24px;
+      min-height: 42px
+    }
+
+    .plan .row {
+      background: #101011;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 11px;
+      flex-wrap: wrap
+    }
+
+    .plan .row .per {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 4px
+    }
+
+    .plan .row .pr {
+      font-family: 'Unbounded';
+      font-weight: 800;
+      font-size: 21px;
+      color: #fff
+    }
+
+    .plan .row .save {
+      font-size: 13px;
+      font-weight: 700;
+      color: #5FBF6A;
+      white-space: nowrap
+    }
+
+    .plan .row .off {
+      font-family: 'Unbounded';
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--acc);
+      white-space: nowrap
+    }
+
+    .plan .note {
+      font-size: 12.5px;
+      color: var(--body);
+      line-height: 1.5;
+      background: var(--accsoft);
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin: 6px 0 16px
+    }
+
+    .plan .bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 20px
+    }
+
+    .plan .bullets li {
+      font-size: 12.5px;
+      color: var(--body)
+    }
+
+    .plan .btn {
+      margin-top: auto;
+      width: 100%;
+      justify-content: center
+    }
+
+    /* ============ ABOUT ============ */
+    .about {
+      padding: 100px 0;
+      background: var(--bg2)
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: .85fr 1.15fr;
+      gap: 56px;
+      align-items: center
+    }
+
+    .about-ph {
+      aspect-ratio: .86/1;
+      border-radius: 22px;
+      overflow: hidden
+    }
+
+    .about .eyebrow {
+      margin-bottom: 18px
+    }
+
+    .about h2 {
+      margin-bottom: 20px
+    }
+
+    .about p {
+      color: var(--body);
+      font-size: 15.5px;
+      line-height: 1.7;
+      margin-bottom: 16px;
+      max-width: 52ch
+    }
+
+    .about-stats {
+      display: flex;
+      gap: 40px;
+      margin-top: 34px;
+      flex-wrap: wrap
+    }
+
+    .about-stats .st .n {
+      font-family: 'Unbounded';
+      font-weight: 800;
+      font-size: 30px;
+      color: var(--acc);
+      line-height: 1
+    }
+
+    .about-stats .st .l {
+      font-size: 13px;
+      color: var(--body);
+      margin-top: 6px
+    }
+
+    /* ============ GIFT / LEAD MAGNET ============ */
+    .gift {
+      padding: 100px 0;
+      background: var(--bg2)
+    }
+
+    .gift .h {
+      text-align: center;
+      margin-bottom: 44px
+    }
+
+    .gift-inner {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      padding: 44px;
+      display: grid;
+      grid-template-columns: minmax(0, 280px) 1fr;
+      gap: 44px;
+      align-items: center;
+      position: relative;
+      overflow: hidden
+    }
+
+    .gift-inner::before {
+      content: "";
+      position: absolute;
+      top: -30%;
+      right: -8%;
+      width: 360px;
+      height: 360px;
+      background: radial-gradient(circle, var(--accsoft), transparent 62%);
+      pointer-events: none
+    }
+
+    .gift-cover {
+      aspect-ratio: .82/1;
+      border-radius: 18px;
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+      transform: rotate(-2deg);
+      transition: transform .4s;
+      box-shadow: 0 24px 50px -24px rgba(0, 0, 0, .6)
+    }
+
+    .gift-cover:hover {
+      transform: rotate(0)
+    }
+
+    .gift-right {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 18px
+    }
+
+    .gift-right .free {
+      display: inline-flex;
+      align-items: center;
+      font-family: 'Unbounded';
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #fff;
+      background: var(--acc);
+      padding: 8px 16px;
+      border-radius: 100px
+    }
+
+    .gift-right h3 {
+      font-family: 'Unbounded';
+      font-weight: 800;
+      text-transform: uppercase;
+      font-size: clamp(22px, 2.8vw, 32px);
+      letter-spacing: -.01em;
+      line-height: 1.1;
+      color: #fff
+    }
+
+    .gift-right .gsub {
+      color: var(--body);
+      font-size: 15.5px;
+      line-height: 1.55;
+      max-width: 44ch
+    }
+
+    .gift-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      margin: 2px 0 4px
+    }
+
+    .gift-list li {
+      font-size: 14px;
+      color: var(--ink);
+      font-weight: 500;
+      padding-left: 24px;
+      position: relative
+    }
+
+    .gift-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 2px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--accsoft)
+    }
+
+    .gift-list li::after {
+      content: "";
+      position: absolute;
+      left: 5px;
+      top: 5px;
+      width: 4px;
+      height: 7px;
+      border: solid var(--acc);
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg)
+    }
+
+    /* ============ FAQ ============ */
+    .faq {
+      padding: 100px 0;
+      background: var(--bg2)
+    }
+
+    .faq .head {
+      margin-bottom: 44px
+    }
+
+    .faq .head .eyebrow {
+      margin-bottom: 18px
+    }
+
+    .faq-list {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      background: var(--line);
+      border-radius: 16px;
+      overflow: hidden
+    }
+
+    .qa {
+      background: var(--card)
+    }
+
+    .qa[open] {
+      background: var(--card2)
+    }
+
+    .qa summary {
+      font-family: 'Unbounded';
+      font-weight: 700;
+      font-size: 15.5px;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 24px 26px;
+      cursor: pointer;
+      user-select: none
+    }
+
+    .qa summary::-webkit-details-marker {
+      display: none
+    }
+
+    .qa summary::after {
+      content: "+";
+      font-family: 'Manrope';
+      font-size: 24px;
+      color: var(--acc);
+      transition: transform .3s;
+      line-height: 1;
+      flex: 0 0 auto
+    }
+
+    .qa[open] summary::after {
+      transform: rotate(45deg)
+    }
+
+    .qa p {
+      margin: 0 26px 22px;
+      color: var(--body);
+      font-size: 14.5px;
+      line-height: 1.65
+    }
+
+    footer {
+      padding: 64px 0 36px;
+      color: var(--muted);
+      font-size: 14px;
+      background: var(--bg2);
+      border-top: 1px solid var(--line)
+    }
+
+    .foot-top {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr;
+      gap: 40px;
+      padding-bottom: 36px;
+      border-bottom: 1px solid var(--line)
+    }
+
+    .foot-brand .logo {
+      font-family: 'Unbounded';
+      font-weight: 800;
+      font-size: 20px;
+      color: var(--ink);
+      margin-bottom: 14px
+    }
+
+    .foot-brand p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+      max-width: 34ch
+    }
+
+    .foot-col h5 {
+      font-family: 'Unbounded';
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 16px
+    }
+
+    .foot-col a {
+      display: block;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      margin-bottom: 11px;
+      transition: color .2s
+    }
+
+    .foot-col a:hover {
+      color: var(--acc)
+    }
+
+    .socials {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px
+    }
+
+    .socials a {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--card);
+      border: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .25s, transform .25s, border-color .25s
+    }
+
+    .socials a:hover {
+      background: var(--acc);
+      border-color: var(--acc);
+      transform: translateY(-3px)
+    }
+
+    .socials svg {
+      width: 18px;
+      height: 18px;
+      fill: var(--ink)
+    }
+
+    .foot-bottom {
+      padding-top: 26px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 16px
+    }
+
+    .foot-legal {
+      color: var(--muted);
+      font-size: 12.5px;
+      line-height: 1.7;
+      max-width: 70ch
+    }
+
+    @media(max-width:820px) {
+      .foot-top {
+        grid-template-columns: 1fr 1fr;
+        gap: 28px
+      }
+
+      .foot-brand {
+        grid-column: 1/-1
+      }
+    }
+
+    @media(max-width:520px) {
+      .foot-top {
+        grid-template-columns: 1fr
+      }
+
+      .foot-bottom {
+        flex-direction: column
+      }
+    }
+
+    /* ============ АДАПТИВ ============ */
+    @media(max-width:900px) {
+      .wrap {
+        padding: 0 20px
+      }
+
+      .hero {
+        min-height: auto;
+        padding: 110px 0 56px
+      }
+
+      .hero-bg::after {
+        background: linear-gradient(180deg, rgba(11, 11, 12, .88), rgba(11, 11, 12, .8) 45%, var(--bg2) 94%)
+      }
+
+      .hero-inner {
+        grid-template-columns: 1fr;
+        gap: 36px
+      }
+
+      .hero-card {
+        max-width: 320px;
+        margin: 0 auto;
+        width: 100%
+      }
+
+      .system {
+        padding: 56px 0 70px
+      }
+
+      .sys-grid {
+        grid-template-columns: 1fr;
+        gap: 20px
+      }
+
+      .res,
+      .price,
+      .about,
+      .gift,
+      .faq {
+        padding: 64px 0
+      }
+
+      .res-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px
+      }
+
+      .plans {
+        grid-template-columns: 1fr;
+        max-width: 420px;
+        margin: 0 auto
+      }
+
+      .incl-all {
+        padding: 26px 22px
+      }
+
+      .incl-all .grid {
+        grid-template-columns: 1fr;
+        gap: 14px
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 32px
+      }
+
+      .about-ph {
+        max-width: 340px;
+        margin: 0 auto;
+        width: 100%
+      }
+
+      .about-stats {
+        gap: 28px
+      }
+
+      .gift-inner {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        padding: 30px 24px;
+        text-align: center
+      }
+
+      .gift-cover {
+        max-width: 220px;
+        margin: 0 auto;
+        width: 100%;
+        transform: none
+      }
+
+      .gift-right {
+        align-items: center
+      }
+
+      .gift-list {
+        text-align: left;
+        display: inline-flex
+      }
+    }
+
+    @media(max-width:520px) {
+      .res-grid {
+        grid-template-columns: 1fr
+      }
+
+      .res-cell {
+        aspect-ratio: 1.1/1
+      }
+
+      .plan {
+        padding: 28px 22px
+      }
+
+      .btn {
+        padding: 16px 30px;
+        font-size: 13.5px
+      }
+
+      .hero-left h1 {
+        font-size: clamp(30px, 9vw, 44px)
+      }
+    }
+
+    @media(prefers-reduced-motion:reduce) {
+      * {
+        animation: none !important;
+        transition: none !important
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ============ HERO + SYSTEM ============ -->
+  <div class="hero-wrap">
+    <section class="hero">
+      <div class="hero-bg"><img src="https://i.ibb.co/CK12MnGK/photo-2026-08-22-12-48-46.jpg"
+          style="width:100%;height:100%;object-fit:cover"></div>
+      <div class="wrap hero-inner">
+        <div class="hero-left">
+          <h1>Тело, которым<br>ты будешь<br>гордиться</h1>
+          <p class="sub">Даже если ты уже пробовал разные программы – я знаю, почему это не сработало. Строим результат
+            системно, без пустых обещаний.</p>
+          <div class="cta"><a href="https://t.me/Alugongo" class="btn">Записаться</a></div>
+        </div>
+        <div class="hero-card">
+          <div class="frame"><img src="https://i.ibb.co/MkpVZ0tV/photo-2026-08-22-12-47-53.jpg"
+              style="width:100%;height:100%;object-fit:cover"></div>
+          <div class="cap"><b>1000+ учеников</b>прошли путь к результату</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="system">
+    <div class="wrap">
+      <div class="head reveal">
+        <span class="eyebrow">Система</span>
+        <h2 class="h">Почему это сработает для тебя</h2>
+      </div>
+      <div class="sys-grid">
+        <div class="sys-item reveal d1">
+          <div class="num">01</div>
+          <h3>Индивидуальный подход</h3>
+          <p>Никаких шаблонных программ. Каждый план строится под твои параметры, цели и расписание.</p>
+        </div>
+        <div class="sys-item reveal d2">
+          <div class="num">02</div>
+          <h3>Питание без срывов</h3>
+          <p>Учу строить рацион так, чтобы он работал на результат и не требовал постоянной силы воли.</p>
+        </div>
+        <div class="sys-item reveal d3">
+          <div class="num">03</div>
+          <h3>Прогрессивная нагрузка</h3>
+          <p>Каждая тренировка сложнее предыдущей. Тело не привыкает – оно растёт.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RESULTS ============ -->
+  <section class="res" id="results">
+    <div class="wrap">
+      <div class="head reveal">
+        <span class="eyebrow">Доказательства</span>
+        <h2 class="h">Результаты учеников</h2>
+      </div>
+      <div class="res-grid">
+        <div class="res-cell reveal d1"><img src="https://i.ibb.co/m5YJz9qP/photo-2026-08-22-12-47-46.jpg"
+            style="width:100%;height:100%;object-fit:cover"><span class="tag">До</span></div>
+        <div class="res-cell after reveal d2"><img src="https://i.ibb.co/YFDGgLv3/photo-2026-08-22-12-48-05.jpg"
+            style="width:100%;height:100%;object-fit:cover"><span class="tag">После</span></div>
+        <div class="res-cell reveal d3"><img src="https://i.ibb.co/gL0DVKXS/photo-2026-08-22-12-48-12.jpg"
+            style="width:100%;height:100%;object-fit:cover"><span class="tag">До</span></div>
+        <div class="res-cell after reveal d4"><img src="https://i.ibb.co/LX5PhBww/photo-2026-08-22-12-48-16.jpg"
+            style="width:100%;height:100%;object-fit:cover"><span class="tag">Результат</span></div>
+        <div class="res-cell after reveal d1">
+          <img src="https://i.ibb.co/fdGXstsJ/photo-2026-08-22-12-48-24.jpg"
+            style="width:100%;height:100%;object-fit:cover">
+          <div class="res-quote">С Александрой мы познакомились в зале – сначала взаимная симпатия, но я сразу перевёл
+            это в профессиональное русло.</div>
+          <span class="tag">До</span>
+        </div>
+        <div class="res-cell after reveal d2">
+          <img src="https://i.ibb.co/twbz8SGf/photo-2026-08-22-12-48-31.jpg"
+            style="width:100%;height:100%;object-fit:cover">
+          <div class="res-quote">Первый же старт в Воронежской области – и Саша чемпионка. Стратегия работает.</div>
+          <span class="tag">Результат</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PRICING ============ -->
+  <section class="price" id="price">
+    <div class="wrap">
+      <div class="head reveal">
+        <span class="eyebrow">Онлайн-сопровождение</span>
+        <h2 class="h">Выбери свой пакет</h2>
+        <p>Достигни цели и построй новую версию себя – без хаоса, с персональным планом и поддержкой.</p>
+      </div>
+
+      <div class="incl-all reveal">
+        <div class="t">Входит в любой пакет</div>
+        <div class="grid">
+          <div class="it"><span class="em">📋</span>Чек-ап анализов – видим базу здоровья</div>
+          <div class="it"><span class="em">🥗</span>План питания + корректировки – рацион под ваши задачи</div>
+          <div class="it"><span class="em">💊</span>Поддержка здоровья (витамины / БАДы) – без дефицитов</div>
+          <div class="it"><span class="em">🔬</span>Превентивная медицина (пептиды, блокаторы голода) – по желанию,
+            включая консультацию</div>
+        </div>
+      </div>
+
+      <div class="plans">
+        <div class="plan reveal d1">
+          <div class="lbl">Пакет №1</div>
+          <div class="tt">Стандартный</div>
+          <div class="sub">Базовое онлайн-сопровождение по питанию и здоровью.</div>
+          <div class="row">
+            <div>
+              <div class="per">1 месяц</div>
+              <div class="pr">12 000 ₽</div>
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <div class="per">3 месяца</div>
+              <div class="pr">27 000 ₽</div>
+            </div>
+            <div class="save">−9 000 ₽</div>
+          </div>
+          <a href="https://t.me/Alugongo" class="btn acc">Записаться</a>
+        </div>
+
+        <div class="plan hit reveal d2">
+          <div class="badge">🔥 Первым 5 — скидка</div>
+          <div class="lbl">Пакет «2+»</div>
+          <div class="tt">С тренировками</div>
+          <div class="sub">Всё из Пакета №1 + 8 онлайн-тренировок – дома или в зале на ваш выбор.</div>
+          <div class="row">
+            <div>
+              <div class="per">1 месяц</div>
+              <div class="pr">12 000 ₽</div>
+            </div>
+            <div class="off">−10%</div>
+          </div>
+          <div class="row">
+            <div>
+              <div class="per">3 месяца</div>
+              <div class="pr">12 000 ₽</div>
+            </div>
+            <div class="off">−15%</div>
+          </div>
+          <div class="note">Пример: пакет «2+» на 3 месяца со скидкой 15% → 59 500 ₽ вместо 70 000 ₽</div>
+          <ul class="bullets">
+            <li>🔥 10% – на месячные пакеты (№1 или «2+»)</li>
+            <li>🔥 15% – на трёхмесячные пакеты</li>
+          </ul>
+          <a href="https://t.me/Alugongo" class="btn acc">Записаться</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ABOUT ============ -->
+  <section class="about">
+    <div class="wrap about-grid">
+      <div class="about-ph reveal"><img src="https://i.ibb.co/CK12MnGK/photo-2026-08-22-12-48-46.jpg"
+          style="width:100%;height:100%;object-fit:cover"></div>
+      <div class="about-txt reveal d2">
+        <span class="eyebrow">Онлайн Тренер</span>
+        <h2 class="h">Работаю с теми,<br><span class="accent">кто хочет результат</span></h2>
+        <p>Знаю на своём опыте, как тяжело начать и не бросить. Прошёл путь от «не знаю, с чего начать» до того, в чём
+          мне комфортно.</p>
+        <p>Теперь помогаю ученикам прийти к тому же – без диет через голод, без мотивационной хрупкости. Моя цель: чтобы
+          результат остался с тобой навсегда.</p>
+        <div class="about-stats">
+          <div class="st">
+            <div class="n">1000+</div>
+            <div class="l">учеников</div>
+          </div>
+          <div class="st">
+            <div class="n">5+</div>
+            <div class="l">лет опыта</div>
+          </div>
+          <div class="st">
+            <div class="n">2</div>
+            <div class="l">награды</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GIFT / LEAD MAGNET ============ -->
+  <section class="gift" id="gift">
+    <div class="wrap">
+      <h2 class="h reveal">Держи, это <span class="accent">бесплатно</span></h2>
+      <div class="gift-inner reveal">
+        <div class="gift-cover"><img src="https://i.ibb.co/nNYXCdVv/photo-2026-09-08-12-20-28.jpg"
+            alt="Питание без срывов" style="width:100%;height:100%;object-fit:cover;"></div>
+        <div class="gift-right">
+          <span class="free">Бесплатно</span>
+          <h3>Питание без срывов</h3>
+          <p class="gsub">Как выстроить рацион под свою цель – без диет до потери сознания и без постоянного чувства
+            голода.</p>
+          <ul class="gift-list">
+            <li>Как считать КБЖУ без сложных таблиц</li>
+            <li>Метод тарелки без диетолога и весов</li>
+            <li>Что делать, если всё-таки сорвался</li>
+          </ul>
+          <a href="Guide.html" class="btn acc">Получить гайд</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="faq">
+    <div class="wrap">
+      <div class="head reveal">
+        <span class="eyebrow">Вопросы</span>
+        <h2 class="h">Частые вопросы</h2>
+      </div>
+      <div class="faq-list reveal d1">
+        <details class="qa">
+          <summary>Подходит ли программа новичкам?</summary>
+          <p>Да, начнём с базового уровня и будем наращивать нагрузку постепенно, под твой темп.</p>
+        </details>
+        <details class="qa">
+          <summary>Нужен ли зал или можно тренироваться дома?</summary>
+          <p>Как тебе удобно. Составлю программу под то, что есть – дом с минимальным инвентарём или полноценный зал.
+          </p>
+        </details>
+        <details class="qa">
+          <summary>Что входит в ведение?</summary>
+          <p>Персональная программа тренировок, план питания, разбор техники, контроль прогресса и поддержка на связи
+            весь период.</p>
+        </details>
+        <details class="qa">
+          <summary>Можно ли совмещать с работой?</summary>
+          <p>Да, программа строится под твой график и вписывается даже в плотное расписание.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div class="foot-top">
+        <div class="foot-brand">
+          <div class="logo">ТРЕНЕР.</div>
+          <p>Онлайн-сопровождение по тренировкам и питанию. Системный результат без хаоса и пустых обещаний.</p>
+          <div class="socials">
+            <a href="https://www.instagram.com/albert.anika_coach?igsi=b2x2a2hla3pzMmJ0&utm_source=qr"
+              aria-label="Instagram"><svg viewBox="0 0 24 24">
+                <path
+                  d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.3 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.3 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.3-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.3-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2zm0 3.1a6.7 6.7 0 100 13.4 6.7 6.7 0 000-13.4zm0 11a4.3 4.3 0 110-8.6 4.3 4.3 0 010 8.6zm6.5-11.2a1.55 1.55 0 11-3.1 0 1.55 1.55 0 013.1 0z" />
+              </svg></a>
+            <a href="https://t.me/Alugongo" aria-label="Telegram"><svg viewBox="0 0 24 24">
+                <path
+                  d="M21.9 4.3l-3.3 15.6c-.2 1.1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.3-4.9 8.9-8c.4-.3-.1-.5-.6-.2L6.2 13.5l-4.7-1.5c-1-.3-1-1 .2-1.5l18.4-7.1c.9-.3 1.6.2 1.3 1.4z" />
+              </svg></a>
+          </div>
+        </div>
+        <div class="foot-col">
+          <h5>Программа</h5>
+          <a href="#results">Результаты</a>
+          <a href="#price">Пакеты</a>
+          <a href="#gift">Бесплатный гайд</a>
+        </div>
+        <div class="foot-col">
+          <h5>Контакты</h5>
+          <a href="#">Написать в Telegram</a>
+          <a href="#">Instagram</a>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <div class="foot-legal">
+          © 2026 Альберт Аньика. Все права защищены. Информация на сайте не является публичной офертой. Услуги носят
+          информационно-консультационный характер и не заменяют консультацию врача.
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const io = new IntersectionObserver((es) => { es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target) } }) }, { threshold: .14 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+</body>
+
+</html>
+```
